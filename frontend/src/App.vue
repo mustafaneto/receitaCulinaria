@@ -1,8 +1,14 @@
 <script setup>
-import { useAuthStore } from './stores/auth';
-import { RouterLink, RouterView } from "vue-router";
+import { useAuthStore } from "./stores/auth";
+import { RouterLink, RouterView, useRouter } from "vue-router";
 
 const authStore = useAuthStore();
+const router = useRouter();
+
+const fazerLogout = async () => {
+  await authStore.logOut();
+  router.push("/login");
+};
 </script>
 
 <template>
@@ -18,9 +24,12 @@ const authStore = useAuthStore();
           />
         </RouterLink>
 
-        <RouterLink to="/login" class="btn btn-primary border-black bg-red-500"
-          >Sair</RouterLink
+        <button
+          @click="fazerLogout"
+          class="btn btn-primary border-black bg-red-500"
         >
+          Sair
+        </button>
       </div>
     </nav>
   </header>

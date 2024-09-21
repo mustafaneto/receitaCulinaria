@@ -16,7 +16,7 @@ export const useAuthStore = defineStore("auth", {
         });
 
         if (!response.ok) {
-          throw new Error("Login failed");
+          throw new Error("Erro ao fazer login");
         }
 
         const data = await response.json();
@@ -24,12 +24,25 @@ export const useAuthStore = defineStore("auth", {
 
         this.isLoggedIn = true;
       } catch (error) {
-        console.error("Login error:", error);
+        console.error("Erro ao fazer login:", error);
         throw error;
       }
     },
-    logOut() {
-      this.isLoggedIn = false;
+    async logOut() {
+      try {
+        await fetch("http://localhost:3000/usuarios/logout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        this.isLoggedIn = false;
+
+        console.log("Logout com sucesso");
+      } catch (error) {
+        console.error("Erro ao sair:", error);
+      }
     },
     async cadastro(userData) {
       try {
@@ -45,14 +58,14 @@ export const useAuthStore = defineStore("auth", {
         );
 
         if (!response.ok) {
-          throw new Error("Registration failed");
+          throw new Error("Cadastro falhou");
         }
 
         const data = await response.json();
-        console.log("User registered:", data);
+        console.log("Usuário registrado:", data);
       } catch (error) {
-        console.error("Registration error:", error.response.data);
-        throw new Error("Registration failed");
+        console.error("Erro ao cadastrar:", error.response.data);
+        throw new Error("Cadastro falhou");
       }
     },
   },
