@@ -1,14 +1,14 @@
 const express = require("express");
 
 const {
-  cadastroUsuario,
+  cadastrarUsuario,
   loginUsuario,
   logoutUsuario,
-} = require("./controllers/usuario");
+} = require("../controllers/usuario");
 
 const router = express.Router();
 
-router.post("/usuarios/cadastrar", cadastroUsuario);
+router.post("/usuarios/cadastrar", cadastrarUsuario);
 router.post("/usuarios/login", loginUsuario);
 router.post("/usuarios/logout", logoutUsuario);
 
