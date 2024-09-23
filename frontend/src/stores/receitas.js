@@ -116,5 +116,82 @@ export const useReceitasStore = defineStore("receitas", {
         console.error("Falha ao receber receitas:", error);
       }
     },
+
+    async fetchReceitasByUser() {
+      try {
+        const token = useAuthStore().token;
+        const response = await fetch("http://localhost:3000/receitas/usuario/minhas", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Falha ao receber receitas: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        this.receitas = data;
+      } catch (error) {
+        console.error("Falha ao receber receitas:", error);
+      }
+    },
+
+    async atualizarReceita(receita) {
+      try {
+        const token = useAuthStore().token;
+
+        const response = await fetch(
+          `http://localhost:3000/receitas/${receita.id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(receita),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `Falha ao atualizar receita: ${response.statusText}`
+          );
+        }
+
+        const data = await response.json();
+        this.receitas = this.receitas.map((r) =>
+          r.id === data.id ? data : r
+        );
+      } catch (error) {
+        console.error("Falha ao atualizar receita:", error);
+        throw error;
+      }
+    },
+
+    async excluirReceita(id) {
+      try {
+        const token = useAuthStore().token;
+
+        const response = await fetch(`http://localhost:3000/receitas/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Falha ao excluir receita: ${response.statusText}`);
+        }
+
+        this.receitas = this.receitas.filter((r) => r.id !== id);
+      } catch (error) {
+        console.error("Falha ao excluir receita:", error);
+        throw error;
+      }
+    }
   },
 });

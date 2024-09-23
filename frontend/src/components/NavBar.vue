@@ -37,108 +37,110 @@ onMounted(async () => {
 </script>
 
 <template>
-<nav class="navbar bg-body-tertiary block md:hidden">
-  <div class="container-fluid flex justify-between items-center">
-    <!-- Logo -->
-    <RouterLink to="/" class="navbar-brand">
-      <img
-        src="../assets/logo.png"
-        alt="Logo"
-        width="100"
-        class="d-inline-block align-text-top"
-      />
-    </RouterLink>
+  <nav class="navbar bg-body-tertiary block md:hidden">
+    <div class="container-fluid flex justify-between items-center">
+      <!-- Logo -->
+      <RouterLink to="/" class="navbar-brand">
+        <img
+          src="../assets/logo.png"
+          alt="Logo"
+          width="100"
+          class="d-inline-block align-text-top"
+        />
+      </RouterLink>
 
-    <!-- Hamburger Icon for Mobile Menu -->
-    <button
-      @click="isDropdownOpen = !isDropdownOpen"
-      class="text-gray-700 focus:outline-none"
-    >
-      <i class="bi bi-list text-3xl"></i> <!-- Bootstrap hamburger icon -->
-    </button>
-  </div>
-
-  <!-- Dropdown Menu -->
-  <div
-    v-if="isDropdownOpen"
-    class="flex flex-col mt-3 space-y-4 p-4"
-  >
-    <!-- Search Form -->
-    <form class="flex space-x-2" role="search" @submit.prevent="searchRecipes">
-      <input
-        class="form-control focus:ring-2 focus:ring-green-500"
-        type="search"
-        placeholder="Pizza de Calabresa..."
-        aria-label="Search"
-        v-model="searchQuery"
-      />
-      <button class="btn btn-outline-success" type="submit">Procurar</button>
-    </form>
-
-    <!-- User Menu -->
-    <div class="dropdown user-menu">
+      <!-- Hamburger Icon for Mobile Menu -->
       <button
-        class="btn btn-secondary w-full"
-        type="button"
-        id="userMenu"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
+        @click="isDropdownOpen = !isDropdownOpen"
+        class="text-gray-700 focus:outline-none"
       >
-        <i class="bi bi-person-circle"></i> Minha Conta
+        <i class="bi bi-list text-3xl"></i>
+        <!-- Bootstrap hamburger icon -->
       </button>
-
-      <ul class="dropdown-menu w-full" aria-labelledby="userMenu">
-        <div v-if="!authStore.isLoggedIn">
-          <li @click="isDropdownOpen = false">
-            <RouterLink to="/login" class="dropdown-item">Login</RouterLink>
-          </li>
-          <li @click="isDropdownOpen = false">
-            <RouterLink to="/cadastro-usuario" class="dropdown-item">
-              Cadastro
-            </RouterLink>
-          </li>
-        </div>
-        <div v-else>
-          <li>
-            <RouterLink to="/cadastro-receita" class="dropdown-item">
-              Criar Receita
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/editar-receita" class="dropdown-item">
-              Editar Receita
-            </RouterLink>
-          </li>
-          <li>
-            <a
-              @click="handleLogout"
-              class="dropdown-item text-red-600 cursor-pointer"
-            >
-              Sair
-            </a>
-          </li>
-        </div>
-      </ul>
     </div>
 
-    <!-- Categories Menu -->
-    <ul class="navbar-nav flex flex-col space-y-2">
-      <li
-        class="nav-item"
-        v-for="category in categoriasStore.categorias"
-        :key="category.id"
-        @click="isDropdownOpen = false"
+    <!-- Dropdown Menu -->
+    <div v-if="isDropdownOpen" class="flex flex-col mt-3 space-y-4 p-4">
+      <!-- Search Form -->
+      <form
+        class="flex space-x-2"
+        role="search"
+        @submit.prevent="searchRecipes"
       >
-        <RouterLink
-          :to="`/categoria/${category.id}`"
-          class="nav-link font-semibold text-center"
+        <input
+          class="form-control focus:ring-2 focus:ring-green-500"
+          type="search"
+          placeholder="Pizza de Calabresa..."
+          aria-label="Search"
+          v-model="searchQuery"
+        />
+        <button class="btn btn-outline-success" type="submit">Procurar</button>
+      </form>
+
+      <!-- User Menu -->
+      <div class="dropdown user-menu">
+        <button
+          class="btn btn-secondary w-full"
+          type="button"
+          id="userMenu"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
         >
-          {{ category.nome }}
-        </RouterLink>
-      </li>
-    </ul>
-  </div>
-</nav>
+          <i class="bi bi-person-circle"></i> Minha Conta
+        </button>
+
+        <ul class="dropdown-menu w-full" aria-labelledby="userMenu">
+          <div v-if="!authStore.isLoggedIn">
+            <li @click="isDropdownOpen = false">
+              <RouterLink to="/login" class="dropdown-item">Login</RouterLink>
+            </li>
+            <li @click="isDropdownOpen = false">
+              <RouterLink to="/cadastro-usuario" class="dropdown-item">
+                Cadastro
+              </RouterLink>
+            </li>
+          </div>
+          <div v-else>
+            <li>
+              <RouterLink to="/cadastro-receita" class="dropdown-item">
+                Criar Receita
+              </RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/gerenciar-receitas" class="dropdown-item">
+                Gerenciar Receitas
+              </RouterLink>
+            </li>
+            <li>
+              <a
+                @click="handleLogout"
+                class="dropdown-item text-red-600 cursor-pointer"
+              >
+                Sair
+              </a>
+            </li>
+          </div>
+        </ul>
+      </div>
+
+      <!-- Categories Menu -->
+      <ul class="navbar-nav flex flex-col space-y-2">
+        <li
+          class="nav-item"
+          v-for="category in categoriasStore.categorias"
+          :key="category.id"
+          @click="isDropdownOpen = false"
+        >
+          <RouterLink
+            :to="`/categoria/${category.id}`"
+            class="nav-link font-semibold text-center"
+          >
+            {{ category.nome }}
+          </RouterLink>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
   <nav class="navbar bg-body-tertiary hidden md:block">
     <div class="container-fluid">
@@ -191,9 +193,9 @@ onMounted(async () => {
               >
             </li>
             <li>
-              <RouterLink to="/editar-receita" class="dropdown-item"
-                >Editar Receita</RouterLink
-              >
+              <RouterLink to="/gerenciar-receitas" class="dropdown-item">
+                Gerenciar Receitas
+              </RouterLink>
             </li>
             <li>
               <a

@@ -37,6 +37,17 @@ const router = createRouter({
       name: 'BuscaResultado',
       component: () => import('@/views/BuscaReceitaView.vue'),
     },
+    {
+      path: '/gerenciar-receitas',
+      name: 'gerenciarReceitas',
+      component: () => import('@/views/GerenciarReceitasView.vue'),
+    },
+    {
+      path: '/editar-receita/:id',
+      name: 'editarReceita',
+      component: () => import('@/views/EditarReceitaView.vue'),
+      props: true,
+    },
   ]
 })
 

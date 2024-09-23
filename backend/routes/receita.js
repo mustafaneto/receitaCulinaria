@@ -6,6 +6,7 @@ const {
   excluirReceita,
   buscarReceitas,
   buscarReceitaPorId,
+  buscarReceitaPorIdUsuario,
   buscarReceitasPorCategoria,
   buscarReceitaPorFiltro,
   imprimirReceita,
@@ -14,10 +15,11 @@ const {
 const router = express.Router();
 
 router.post("/receitas", criarReceita);
-// router.put("/receitas/:id", editarReceita);
-// router.delete("/receitas/:id", excluirReceita);
+router.put("/receitas/:id", editarReceita);
+router.delete("/receitas/:id", excluirReceita);
 router.get("/receitas", buscarReceitas);
 router.get("/receitas/:id", buscarReceitaPorId);
+router.get("/receitas/usuario/minhas", buscarReceitaPorIdUsuario);
 router.get("/receitas/categoria/:id", buscarReceitasPorCategoria);
 router.get("/receitas/busca/:busca", buscarReceitaPorFiltro);
 // router.get("/receitas/:id/imprimir", imprimirReceita);

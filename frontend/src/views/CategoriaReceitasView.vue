@@ -49,7 +49,6 @@ async function fetchReceitas() {
 onMounted(fetchReceitas);
 
 watch(() => route.params.id, (newId) => {
-  console.log(newId);
   categoryId.value = newId; 
   fetchReceitas();
 });

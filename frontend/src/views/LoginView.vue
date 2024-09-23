@@ -5,6 +5,11 @@
       class="bg-white p-8 rounded shadow-lg w-96 m-auto"
     >
       <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+
+      <p v-if="erroMensagem" class="text-red-500 text-center mb-4">
+        {{ erroMensagem }}
+      </p>
+
       <div class="mb-4">
         <label for="login" class="form-label">Login</label>
         <input
@@ -50,16 +55,17 @@ const login = ref("");
 const senha = ref("");
 const authStore = useAuthStore();
 const router = useRouter();
+const erroMensagem = ref("");
 
 const loginUsuario = async () => {
+  erroMensagem.value = "";
   try {
     await authStore.logIn(login.value, senha.value);
     router.push("/");
   } catch (error) {
-    console.error("Login failed:", error);
+    erroMensagem.value = "Login ou senha incorretos. Tente novamente.";
   }
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
