@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 export const useAuthStore = defineStore("auth", {
   state: () => ({
     isLoggedIn: false,
+    token: null,
   }),
   actions: {
     async logIn(login, senha) {
@@ -20,7 +21,7 @@ export const useAuthStore = defineStore("auth", {
         }
 
         const data = await response.json();
-        console.log(data);
+        this.token = data.token;
 
         this.isLoggedIn = true;
       } catch (error) {

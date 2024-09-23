@@ -4,7 +4,7 @@
       @submit.prevent="cadastrarUsuario"
       class="bg-white p-8 rounded shadow-md w-96"
     >
-      <h2 class="text-2xl font-bold mb-6 text-center">Registrar</h2>
+      <h2 class="text-2xl font-bold mb-6 text-center">Cadastro</h2>
       <div class="mb-4">
         <label for="nome" class="form-label">Nome</label>
         <input
@@ -76,5 +76,4 @@ const cadastrarUsuario = async () => {
 </script>
 
 <style scoped>
-/* Add any additional styles if needed */
 </style>
