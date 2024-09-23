@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { buscarCategorias } = require("../controllers/categoria");
+const { buscarCategorias } = require("../controllers/categoriaController");
 
 const router = express.Router();
 

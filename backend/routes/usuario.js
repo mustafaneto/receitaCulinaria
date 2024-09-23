@@ -4,7 +4,7 @@ const {
   cadastrarUsuario,
   loginUsuario,
   logoutUsuario,
-} = require("../controllers/usuario");
+} = require("../controllers/usuarioController");
 
 const router = express.Router();
 

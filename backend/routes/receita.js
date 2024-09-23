@@ -9,7 +9,7 @@ const {
   buscarReceitasPorCategoria,
   buscarReceitaPorFiltro,
   imprimirReceita,
-} = require("../controllers/receita");
+} = require("../controllers/receitaController");
 
 const router = express.Router();
 

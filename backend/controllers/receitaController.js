@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const pool = require("../conexao");
+const receitaRepository = require("../repositories/receitaRepository");
 
 async function criarReceita(req, res) {
   const {
@@ -21,31 +21,27 @@ async function criarReceita(req, res) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const id_usuarios = decoded.id;
 
-    const [result] = await pool.query(
-      "INSERT INTO receitas (id_usuarios, nome, tempo_preparo_minutos, porcoes, url_imagem, modo_preparo, ingredientes, id_categorias, criado_em, alterado_em) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())",
-      [
-        id_usuarios,
-        nome,
-        tempo_preparo_minutos,
-        porcoes,
-        url_imagem,
-        modo_preparo,
-        ingredientes,
-        id_categorias,
-      ]
+    const receita = await receitaRepository.criar(
+      id_usuarios,
+      nome,
+      tempo_preparo_minutos,
+      porcoes,
+      url_imagem,
+      modo_preparo,
+      ingredientes,
+      id_categorias
     );
 
-    res.status(201).json({ id: result.insertId, nome });
+    res.status(201).json(receita);
   } catch (error) {
     console.error("Erro ao criar receitas:", error);
-
     res.status(500).json({ error: "Erro ao criar receita" });
   }
 }
 
 async function buscarReceitas(req, res) {
   try {
-    const [receitas] = await pool.query("SELECT * FROM receitas");
+    const receitas = await receitaRepository.buscarTodas();
     res.json(receitas);
   } catch (error) {
     res.status(500).json({ error: "Erro ao buscar receitas" });
@@ -56,15 +52,13 @@ async function buscarReceitaPorId(req, res) {
   const { id } = req.params;
 
   try {
-    const [receita] = await pool.query("SELECT * FROM receitas WHERE id = ?", [
-      id,
-    ]);
+    const receita = await receitaRepository.buscarPorId(id);
 
-    if (receita.length === 0) {
+    if (!receita) {
       return res.status(404).json({ error: "Receita não encontrada" });
     }
 
-    res.json(receita[0]); // Return the receita object
+    res.json(receita);
   } catch (error) {
     console.error("Erro ao buscar receita:", error);
     res.status(500).json({ error: "Erro ao buscar receita" });
@@ -75,10 +69,7 @@ async function buscarReceitasPorCategoria(req, res) {
   const { id } = req.params;
 
   try {
-    const [receitas] = await pool.query(
-      "SELECT * FROM receitas WHERE id_categorias = ?",
-      [id]
-    );
+    const receitas = await receitaRepository.buscarPorCategoria(id);
     res.json(receitas);
   } catch (error) {
     res.status(500).json({ error: "Erro ao buscar receitas" });
@@ -89,17 +80,13 @@ async function buscarReceitaPorFiltro(req, res) {
   const { busca } = req.params;
 
   try {
-    const [receitas] = await pool.query(
-      "SELECT * FROM receitas WHERE nome LIKE ?",
-      [`%${busca}%`]
-    );
+    const receitas = await receitaRepository.buscarPorFiltro(busca);
     res.json(receitas);
   } catch (error) {
     console.error(error); 
     res.status(500).json({ error: "Erro ao buscar receitas" });
   }
 }
-
 
 module.exports = {
   criarReceita,
