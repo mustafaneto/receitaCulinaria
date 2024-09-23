@@ -1,21 +1,36 @@
 <script setup>
 import { RouterLink, RouterView, useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
-
-const authStore = useAuthStore();
+import { useCategoriasStore } from "@/stores/categorias";
+import { useReceitasStore } from "@/stores/receitas";
+import { ref, onMounted } from "vue";
 
 const router = useRouter();
+const authStore = useAuthStore();
+const categoriasStore = useCategoriasStore();
+const receitasStore = useReceitasStore();
+
+const searchQuery = ref("");
+
+async function searchRecipes() {
+  if (searchQuery.value.trim() === "") return;
+
+  try {
+    await receitasStore.fetchReceitasByFiltro(searchQuery.value);
+    router.push(`/resultado-busca/${searchQuery.value}`);
+    searchQuery.value = "";
+  } catch (error) {
+    console.error("Erro ao buscar receitas:", error);
+  }
+}
 
 function handleLogout() {
   authStore.logOut();
   router.push("/login");
 }
 
-defineProps({
-  msg: {
-    type: String,
-    required: true,
-  },
+onMounted(async () => {
+  await categoriasStore.fetchCategorias();
 });
 </script>
 
@@ -31,15 +46,17 @@ defineProps({
         />
       </RouterLink>
 
-      <form class="d-flex" role="search">
+      <form class="d-flex" role="search" @submit.prevent="searchRecipes">
         <input
           class="form-control me-2 focus:ring-2 focus:ring-green-500"
           type="search"
-          placeholder="Search"
+          placeholder="Pizza de Calabresa..."
           aria-label="Search"
+          v-model="searchQuery"
         />
         <button class="btn btn-outline-success" type="submit">Procurar</button>
       </form>
+
       <div class="dropdown user-menu">
         <button
           class="btn btn-secondary dropdown-toggle"
@@ -74,13 +91,37 @@ defineProps({
               >
             </li>
             <li>
-              <a @click="handleLogout" class="dropdown-item text-red-600 cursor-pointer">Sair</a>
+              <a
+                @click="handleLogout"
+                class="dropdown-item text-red-600 cursor-pointer"
+                >Sair</a
+              >
             </li>
           </div>
         </ul>
       </div>
     </div>
+    <div class="navbar-collapse">
+      <ul class="navbar-nav d-flex flex-row me-auto justify-around">
+        <li
+          class="nav-item"
+          v-for="category in categoriasStore.categorias"
+          :key="category.id"
+        >
+          <RouterLink
+            :to="`/categoria/${category.id}`"
+            class="nav-link font-semibold mx-7 text-center"
+          >
+            {{ category.nome }}
+          </RouterLink>
+        </li>
+      </ul>
+    </div>
   </nav>
 </template>
 
-<style scoped></style>
+<style scoped>
+.navbar-nav {
+  margin-top: 1rem;
+}
+</style>

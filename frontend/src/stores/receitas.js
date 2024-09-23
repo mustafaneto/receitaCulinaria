@@ -14,7 +14,7 @@ export const useReceitasStore = defineStore("receitas", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(receita),
         });
@@ -24,7 +24,7 @@ export const useReceitasStore = defineStore("receitas", {
         }
 
         const data = await response.json();
-        this.receitas.push(data); 
+        this.receitas.push(data);
       } catch (error) {
         console.error("Falha ao cadastrar receita:", error);
         throw error;
@@ -48,6 +48,72 @@ export const useReceitasStore = defineStore("receitas", {
         this.receitas = data;
       } catch (error) {
         console.error("Falha ao receber receita:", error);
+      }
+    },
+
+    async fetchReceitaById(id) {
+      try {
+        const response = await fetch(`http://localhost:3000/receitas/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Falha ao receber receita: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error("Falha ao receber receita:", error);
+        throw error;
+      }
+    },
+
+    async fetchReceitasByCategory(categoryId) {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/receitas/categoria/${categoryId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `Falha ao receber receitas da categoria: ${response.statusText}`
+          );
+        }
+
+        const data = await response.json();
+        this.receitas = data;
+      } catch (error) {
+        console.error("Falha ao receber receitas:", error);
+      }
+    },
+
+    async fetchReceitasByFiltro(name) {
+      try {
+        const response = await fetch(`http://localhost:3000/receitas/busca/${name}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Falha ao receber receitas: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        this.receitas = data;
+      } catch (error) {
+        console.error("Falha ao receber receitas:", error);
       }
     },
   },

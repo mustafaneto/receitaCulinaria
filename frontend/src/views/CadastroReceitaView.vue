@@ -136,7 +136,6 @@ onMounted(async () => {
 });
 
 const cadastrarReceita = async () => {
-  console.log(categoria.value);
   try {
     await receitasStore.cadastrarReceita({
       nome: nome.value,
