@@ -1,7 +1,7 @@
 <template>
     <div class="bg-white p-4 rounded shadow-lg flex flex-col justify-center items-center">
       <h3 class="font-bold text-lg">{{ receita.nome }}</h3>
-      <img class="max-w-md rounded-3xl" :src="receita.url_imagem" alt="imagem receita">
+      <img class="w-auto lg:max-w-sm rounded-3xl" :src="receita.url_imagem" alt="imagem receita">
       <div>
         <p class="text-gray-600">
           <span class="font-bold">Tempo de Preparo:</span> {{ receita.tempo_preparo_minutos }} min
