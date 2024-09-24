@@ -1,9 +1,22 @@
 <template>
   <div>
     <div class="p-4 max-w-lg flex flex-col m-auto bg-white rounded">
-      <h2 class="text-2xl font-bold mb-6">{{ receita.nome }}</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <h2 class="text-2xl font-bold mb-6">{{ receita.nome }}</h2>
+        </div>
+        <div>
+          <button
+            @click="imprimirReceita"
+            class="inline-block bg-blue-500 text-white font-bold py-2 px-4 rounded"
+          >
+            Imprimir Receita
+          </button>
+        </div>
+      </div>
       <p>
-        <strong>Tempo de Preparo:</strong> {{ receita.tempo_preparo_minutos }} min
+        <strong>Tempo de Preparo:</strong>
+        {{ receita.tempo_preparo_minutos }} min
       </p>
       <p><strong>Porções:</strong> {{ receita.porcoes }}</p>
       <p><strong>Ingredientes:</strong></p>
@@ -17,10 +30,10 @@
           class="h-auto max-w-md rounded-3xl"
         />
       </div>
-      <div class="flex flex-col items-center">
+      <div class="flex flex-col items-center mt-4">
         <router-link
           to="/"
-          class="mt-4 inline-block bg-gray-200 text-black font-bold py-2 px-4 rounded"
+          class="inline-block bg-gray-200 text-black font-bold py-2 px-4 rounded"
         >
           Voltar
         </router-link>
@@ -49,6 +62,10 @@ const carregarReceita = async () => {
   } catch (error) {
     console.error("Erro ao carregar receita:", error);
   }
+};
+
+const imprimirReceita = () => {
+  window.print();
 };
 </script>
 

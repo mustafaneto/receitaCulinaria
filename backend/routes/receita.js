@@ -9,7 +9,6 @@ const {
   buscarReceitaPorIdUsuario,
   buscarReceitasPorCategoria,
   buscarReceitaPorFiltro,
-  imprimirReceita,
 } = require("../controllers/receitaController");
 
 const router = express.Router();
@@ -22,6 +21,5 @@ router.get("/receitas/:id", buscarReceitaPorId);
 router.get("/receitas/usuario/minhas", buscarReceitaPorIdUsuario);
 router.get("/receitas/categoria/:id", buscarReceitasPorCategoria);
 router.get("/receitas/busca/:busca", buscarReceitaPorFiltro);
-// router.get("/receitas/:id/imprimir", imprimirReceita);
 
 module.exports = router;
