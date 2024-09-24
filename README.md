@@ -35,10 +35,10 @@ npm start
 
 ### 3. Configurar o Frontend
 
-#### 3.1 Navegue até a pasta do frontend:
+#### 3.1 Abra um novo terminal e navegue até a pasta frontend:
 
 ```sh
-cd ../frontend
+cd frontend
 ```
 
 #### 3.2 Instale as dependências:
@@ -71,3 +71,16 @@ DB_NAME=teste_receitas_rg_sistemas
 JWT_SECRET=segredo
 ```
 
+#### Usuário padrão cadastrado
+
+#### Login:
+
+```sh
+mustafa
+```
+
+#### Senha:
+
+```sh
+123
+```
