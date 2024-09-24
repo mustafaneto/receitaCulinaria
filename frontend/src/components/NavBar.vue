@@ -10,16 +10,16 @@ const authStore = useAuthStore();
 const categoriasStore = useCategoriasStore();
 const receitasStore = useReceitasStore();
 
-const searchQuery = ref("");
+const procurarQuery = ref("");
 const isDropdownOpen = ref(false);
 
-async function searchRecipes() {
-  if (searchQuery.value.trim() === "") return;
+async function procurarReceitas() {
+  if (procurarQuery.value.trim() === "") return;
 
   try {
-    await receitasStore.fetchReceitasByFiltro(searchQuery.value);
-    router.push(`/resultado-busca/${searchQuery.value}`);
-    searchQuery.value = "";
+    await receitasStore.fetchReceitasByFiltro(procurarQuery.value);
+    router.push(`/resultado-busca/${procurarQuery.value}`);
+    procurarQuery.value = "";
     isDropdownOpen.value = false;
   } catch (error) {
     console.error("Erro ao buscar receitas:", error);
@@ -37,6 +37,7 @@ onMounted(async () => {
 </script>
 
 <template>
+  <!-- Mobile Navbar -->
   <nav class="navbar bg-body-tertiary block md:hidden">
     <div class="container-fluid flex justify-between items-center">
       <!-- Logo -->
@@ -65,14 +66,14 @@ onMounted(async () => {
       <form
         class="flex space-x-2"
         role="search"
-        @submit.prevent="searchRecipes"
+        @submit.prevent="procurarReceitas"
       >
         <input
           class="form-control focus:ring-2 focus:ring-green-500"
           type="search"
           placeholder="Pizza de Calabresa..."
           aria-label="Search"
-          v-model="searchQuery"
+          v-model="procurarQuery"
         />
         <button class="btn btn-outline-success" type="submit">Procurar</button>
       </form>
@@ -141,6 +142,7 @@ onMounted(async () => {
     </div>
   </nav>
 
+  <!-- Desktop Navbar -->
   <nav class="navbar bg-body-tertiary hidden md:block">
     <div class="container-fluid">
       <RouterLink to="/" class="navbar-brand">
@@ -152,13 +154,13 @@ onMounted(async () => {
         />
       </RouterLink>
 
-      <form class="d-flex" role="search" @submit.prevent="searchRecipes">
+      <form class="d-flex" role="search" @submit.prevent="procurarReceitas">
         <input
           class="form-control me-2 focus:ring-2 focus:ring-green-500"
           type="search"
           placeholder="Pizza de Calabresa..."
           aria-label="Search"
-          v-model="searchQuery"
+          v-model="procurarQuery"
         />
         <button class="btn btn-outline-success" type="submit">Procurar</button>
       </form>
