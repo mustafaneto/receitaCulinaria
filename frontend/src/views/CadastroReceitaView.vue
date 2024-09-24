@@ -2,7 +2,7 @@
   <div class="flex items-start justify-center h-screen bg-gray-100">
     <form
       @submit.prevent="cadastrarReceita"
-      class="bg-white p-8 rounded shadow-md w-full max-w-4xl"
+      class="bg-white p-8 rounded shadow-md w-full max-w-4xl my-3"
     >
       <h2 class="text-2xl font-bold mb-6 text-center w-full">
         Registrar Receita

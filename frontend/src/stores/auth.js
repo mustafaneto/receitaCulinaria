@@ -39,7 +39,6 @@ export const useAuthStore = defineStore("auth", {
         });
 
         this.isLoggedIn = false;
-
         console.log("Logout com sucesso");
       } catch (error) {
         console.error("Erro ao sair:", error);

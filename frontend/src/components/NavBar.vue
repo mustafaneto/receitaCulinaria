@@ -122,7 +122,6 @@ onMounted(async () => {
           </div>
         </ul>
       </div>
-
       <!-- Categories Menu -->
       <ul class="navbar-nav flex flex-col space-y-2">
         <li

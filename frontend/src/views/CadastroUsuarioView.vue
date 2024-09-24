@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="flex items-start justify-center h-screen bg-gray-100">
     <form
       @submit.prevent="cadastrarUsuario"
-      class="bg-white p-8 rounded shadow-lg w-96 m-auto"
+      class="bg-white p-8 rounded shadow-lg w-96 m-auto my-3"
     >
       <h2 class="text-2xl font-bold mb-6 text-center">Cadastro</h2>
       <div class="mb-4">
